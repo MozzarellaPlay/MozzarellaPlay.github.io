@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MozzarellaPlay — Мобильные приложения и игры</title>
+  <meta name="description" content="MozzarellaPlay — независимый разработчик мобильных приложений и игр для Android.">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #1a1a2e;
+      background: #fafafa;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .logo span { color: #f5c518; }
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    nav { display: flex; gap: 1.5rem; }
+    nav a {
+      color: rgba(255,255,255,.75); font-size: .95rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: #f5c518; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 30% 70%, rgba(245,197,24,.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(15,52,96,.3) 0%, transparent 50%);
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-30px, 20px) rotate(3deg); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 4px 30px rgba(0,0,0,.3);
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      margin-bottom: .5rem;
+      letter-spacing: -1px;
+    }
+    .hero h1 span { color: #f5c518; }
+    .hero .tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: rgba(255,255,255,.7);
+      margin-bottom: 2rem;
+    }
+    .hero-badges { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .badge {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 50px;
+      padding: .5rem 1.2rem;
+      font-size: .9rem;
+      color: rgba(255,255,255,.85);
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .scroll-hint {
+      position: relative; z-index: 1;
+      margin-top: 3rem;
+      animation: bounce 2s infinite;
+      color: rgba(255,255,255,.4);
+      font-size: 1.5rem;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 5rem 2rem; }
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+
+    /* ===== APPS GRID ===== */
+    #apps { background: #fff; }
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .app-card {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform .3s, box-shadow .3s;
+      display: flex; flex-direction: column;
+    }
+    .app-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    }
+    .app-icon-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      object-fit: cover;
+    }
+    .app-card h3 { font-size: 1.3rem; margin-bottom: .3rem; }
+    .app-category {
+      font-size: .85rem;
+      color: #888;
+      margin-bottom: .8rem;
+      display: flex; align-items: center; gap: .3rem;
+    }
+    .app-card p {
+      color: #555;
+      font-size: .95rem;
+      flex-grow: 1;
+      margin-bottom: 1.2rem;
+    }
+    .app-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+    .app-features li {
+      font-size: .88rem;
+      color: #666;
+      padding: .2rem 0;
+    }
+    .app-features li::before {
+      content: '✓ ';
+      color: #27ae60;
+      font-weight: 700;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: #fff;
+      padding: .7rem 1.5rem;
+      border-radius: 12px;
+      font-size: .95rem;
+      font-weight: 600;
+      transition: opacity .2s;
+      align-self: flex-start;
+    }
+    .store-btn:hover { opacity: .85; }
+
+    /* ===== ABOUT ===== */
+    #about { background: #fafafa; }
+    .about-content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .about-content p {
+      color: #555;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+    .about-avatar-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      color: #fff;
+      text-align: center;
+    }
+    #contact .section-title { color: #fff; }
+    #contact .section-subtitle { color: rgba(255,255,255,.6); }
+    .contact-links {
+      display: flex; gap: 1.5rem;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .contact-link {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      padding: 1rem 2rem;
+      border-radius: 14px;
+      font-size: 1rem;
+      color: #fff;
+      transition: background .2s;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .contact-link:hover { background: rgba(255,255,255,.2); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #111;
+      color: rgba(255,255,255,.4);
+      text-align: center;
+      padding: 2rem;
+      font-size: .85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      header { padding: 0 1rem; }
+      nav { gap: 1rem; }
+      nav a { font-size: .85rem; }
+      section { padding: 3.5rem 1.2rem; }
+      .apps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <img src="logo.png" alt="Logo" class="logo-img">
+    Mozzarella<span>Play</span>
+  </div>
+  <nav>
+    <a href="#apps">Приложения</a>
+    <a href="#about">О нас</a>
+    <a href="#contact">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <img src="logo.png" alt="MozzarellaPlay" class="hero-logo">
+    <h1>Mozzarella<span>Play</span></h1>
+    <p class="tagline">Мобильные приложения и игры для Android</p>
+    <div class="hero-badges">
+      <div class="badge">📱 Android</div>
+      <div class="badge">🎮 Игры</div>
+      <div class="badge">🛠️ Утилиты</div>
+      <div class="badge">🆓 Бесплатно</div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- APPS -->
+<section id="apps">
+  <h2 class="section-title">Наши приложения</h2>
+  <p class="section-subtitle">Скачивайте бесплатно в RuStore</p>
+
+  <div class="apps-grid">
+
+    <!-- Мои финансы -->
+    <div class="app-card">
+      <img src="icon-finance.png" alt="Мои финансы" class="app-icon-img">
+      <h3>Мои финансы</h3>
+      <div class="app-category">📂 Финансы &nbsp;·&nbsp; ⭐ 5,0</div>
+      <p>Простое и удобное приложение для ведения личного бюджета. Отслеживайте доходы и расходы, распределяйте траты по категориям и просматривайте наглядную статистику.</p>
+      <ul class="app-features">
+        <li>Быстрое добавление доходов и расходов</li>
+        <li>Собственные категории трат</li>
+        <li>Наглядная статистика и отчёты</li>
+        <li>Работа без интернета</li>
+      </ul>
+      <a href="https://www.rustore.ru/catalog/app/com.mozzarellaplay.yourfinapp" target="_blank" class="store-btn">
+        📥 Скачать в RuStore
+      </a>
+    </div>
+
+    <!-- Машинки по Миру -->
+    <div class="app-card">
+      <img src="icon-carjam.png" alt="Машинки по Миру" class="app-icon-img">
+      <h3>Машинки по Миру</h3>
+      <div class="app-category">📂 Головоломки &nbsp;·&nbsp; 🎮 Игра</div>
+      <p>Весёлое путешествие с головоломками! Помогай машинкам выбраться из пробок, открывай новые страны и тренируй логику на множестве уровней.</p>
+      <ul class="app-features">
+        <li>Множество уровней с машинками</li>
+        <li>Открытие новых стран</li>
+        <li>Подходит детям и взрослым</li>
+        <li>Работа без интернета</li>
+      </ul>
+      <a href="https://www.rustore.ru/catalog/app/com.mozzarellaplay.carjam" target="_blank" class="store-btn">
+        📥 Скачать в RuStore
+      </a>
+    </div>
+
+    <!-- Проверено -->
+    <div class="app-card">
+      <img src="icon-checked.png" alt="Проверено" class="app-icon-img">
+      <h3>Проверено</h3>
+      <div class="app-category">📂 Полезные инструменты</div>
+      <p>Закрыл ли я дверь? Выключил ли газ? Создайте список ежедневных проверок и отмечайте их перед выходом — с фото-подтверждением и точным временем.</p>
+      <ul class="app-features">
+        <li>Фото-подтверждение проверок</li>
+        <li>Точное время фиксации</li>
+        <li>Ежедневный сброс</li>
+        <li>Полностью бесплатное</li>
+      </ul>
+      <a href="https://www.rustore.ru/catalog/app/com.mozzarellaplay.ocr_app" target="_blank" class="store-btn">
+        📥 Скачать в RuStore
+      </a>
+    </div>
+
+    <!-- КросСчёт -->
+    <div class="app-card">
+      <img src="icon-crosschet.png" alt="КросСчёт" class="app-icon-img">
+      <h3>КросСчёт</h3>
+      <div class="app-category">📂 Головоломки &nbsp;·&nbsp; 🎮 Игра</div>
+      <p>Математические кроссворды, которые затягивают! Заполняй сетку, решая примеры на сложение, вычитание, умножение и деление. Каждая клетка — маленькая задачка, каждый уровень — новый вызов!</p>
+      <ul class="app-features">
+        <li>Математические кроссворды с числами</li>
+        <li>Уровни от простых к сложным</li>
+        <li>Тренировка устного счёта</li>
+        <li>Работа без интернета</li>
+      </ul>
+      <a href="https://www.rustore.ru/catalog/app/com.mozzarellplay.crosschet" target="_blank" class="store-btn">
+        📥 Скачать в RuStore
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title">О студии</h2>
+  <p class="section-subtitle">Кто стоит за MozzarellaPlay</p>
+  <div class="about-content">
+    <img src="logo.png" alt="MozzarellaPlay" class="about-avatar-img">
+    <p><strong>MozzarellaPlay</strong> — независимый разработчик мобильных приложений и игр для Android.</p>
+    <p>Создаю простые, полезные и бесплатные приложения, которыми приятно пользоваться каждый день. Все приложения доступны в RuStore, работают без регистрации и без интернета.</p>
+    <p style="color: #999; font-size: .9rem; margin-top: 1.5rem;">Разработчик: Hariton Myslivchik</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-title">Контакты</h2>
+  <p class="section-subtitle">Есть вопросы или предложения? Напишите!</p>
+  <div class="contact-links">
+    <a href="mailto:MozzarellaPlay@yandex.by" class="contact-link">
+      ✉️ MozzarellaPlay@yandex.by
+    </a>
+    <a href="https://www.rustore.ru/catalog/developer/54e9f461" target="_blank" class="contact-link">
+      📱 RuStore
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 MozzarellaPlay. Все приложения бесплатны и доступны в RuStore.
+</footer>
+
+</body>
+</html>
